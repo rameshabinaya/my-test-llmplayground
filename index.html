@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abinaya's LLM Playground</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Title Header -->
+    <header class="main-header">
+        <div class="main-title-container">
+            <h1 class="main-title">Abinaya's LLM Playground</h1>
+            <p class="main-subtitle">Explore the power of AI with multiple language models</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Collapsible Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-toggle" id="sidebar-toggle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <button id="new-chat-button" class="new-chat-button">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        New Chat
+                    </button>
+                </div>
+                
+                <!-- User Settings Section -->
+                <div class="user-settings">
+                    <h3 class="settings-title">Settings</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="dark-mode-toggle" class="setting-checkbox">
+                            <span class="setting-text">Dark Mode</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="auto-save-toggle" class="setting-checkbox" checked>
+                            <span class="setting-text">Auto-save Conversations</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="sound-effects-toggle" class="setting-checkbox">
+                            <span class="setting-text">Sound Effects</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="conversations-list" id="conversations-list">
+                    <!-- Conversation items will be dynamically added here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <div class="main-area">
+            <!-- Secondary Header -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="model-selector-container">
+                        <label for="model-provider" class="model-label">Provider:</label>
+                        <select id="model-provider" class="model-select">
+                            <option value="">Auto</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="google">Google</option>
+                            <option value="groq">Groq</option>
+                        </select>
+                        <label for="model-select" class="model-label">Model:</label>
+                        <select id="model-select" class="model-select">
+                            <option value="">Auto</option>
+                        </select>
+                    </div>
+                    <div class="header-controls">
+                        <button id="config-button" class="config-button" title="Model Parameters">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+            <!-- Conversation Area -->
+            <div class="conversation-container">
+                <div id="conversation-history" class="conversation-history">
+                    <div class="welcome-message">
+                        <h2>What can I help with?</h2>
+                        <p>Start a conversation with your chosen AI model</p>
+                        
+                        <!-- Sample Prompts Section -->
+                        <div class="sample-prompts">
+                            <h3>Try these sample prompts:</h3>
+                            <div class="prompt-cards">
+                                <div class="prompt-card" data-prompt="Explain quantum computing in simple terms">
+                                    <div class="prompt-icon">🔬</div>
+                                    <div class="prompt-text">Explain quantum computing in simple terms</div>
+                                    <div class="prompt-category">Science</div>
+                                </div>
+                                <div class="prompt-card" data-prompt="Write a poem about artificial intelligence">
+                                    <div class="prompt-icon">✨</div>
+                                    <div class="prompt-text">Write a poem about artificial intelligence</div>
+                                    <div class="prompt-category">Creative</div>
+                                </div>
+                                <div class="prompt-card" data-prompt="Generate Python code for a Fibonacci sequence">
+                                    <div class="prompt-icon">💻</div>
+                                    <div class="prompt-text">Generate Python code for a Fibonacci sequence</div>
+                                    <div class="prompt-category">Coding</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="prompt-input" 
+                        placeholder="Ask anything..." 
+                        rows="1"
+                        maxlength="4000"
+                    ></textarea>
+                    <button id="send-button" class="send-button" disabled>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    <span class="character-count">0 / 4000</span>
+                    <button id="clear-button" class="clear-button">Clear History</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Model Parameters Panel -->
+    <div id="config-panel" class="config-panel hidden">
+        <div class="config-panel-content">
+            <div class="config-header">
+                <h3>Model Parameters</h3>
+                <button id="config-close" class="config-close">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="config-section">
+                <h4>Generation Parameters</h4>
+                
+                <div class="config-item">
+                    <label for="temperature-slider">Temperature</label>
+                    <div class="slider-container">
+                        <input type="range" id="temperature-slider" min="0" max="2" step="0.1" value="0.7">
+                        <span id="temperature-value" class="slider-value">0.7</span>
+                    </div>
+                    <p class="config-description">Controls randomness. Lower values make responses more focused and deterministic.</p>
+                </div>
+
+                <div class="config-item">
+                    <label for="max-tokens-slider">Max Tokens</label>
+                    <div class="slider-container">
+                        <input type="range" id="max-tokens-slider" min="50" max="4000" step="50" value="2000">
+                        <span id="max-tokens-value" class="slider-value">2000</span>
+                    </div>
+                    <p class="config-description">Maximum number of tokens in the response.</p>
+                </div>
+
+                <div class="config-item">
+                    <label for="top-p-slider">Top P</label>
+                    <div class="slider-container">
+                        <input type="range" id="top-p-slider" min="0" max="1" step="0.05" value="1">
+                        <span id="top-p-value" class="slider-value">1.0</span>
+                    </div>
+                    <p class="config-description">Controls diversity via nucleus sampling. Lower values focus on more probable tokens.</p>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h4>Interface Settings</h4>
+                
+                <div class="config-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="show-timestamps" checked>
+                        <span class="checkmark"></span>
+                        Show message timestamps
+                    </label>
+                </div>
+
+                <div class="config-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="auto-scroll" checked>
+                        <span class="checkmark"></span>
+                        Auto-scroll to new messages
+                    </label>
+                </div>
+
+                <div class="config-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="save-history" checked>
+                        <span class="checkmark"></span>
+                        Save conversation history
+                    </label>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h4>System Prompt</h4>
+                <div class="config-item">
+                    <textarea id="system-prompt" placeholder="Enter a system prompt to guide the AI's behavior..." rows="4"></textarea>
+                    <p class="config-description">Optional system message to set the AI's behavior and context.</p>
+                </div>
+            </div>
+
+            <div class="config-actions">
+                <button id="reset-config" class="config-button-secondary">Reset to Defaults</button>
+                <button id="save-config" class="config-button-primary">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+        </div> <!-- End main-area -->
+    </div> <!-- End container -->
+
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="loading-indicator hidden">
+        <div class="loading-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
